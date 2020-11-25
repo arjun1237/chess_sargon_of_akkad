@@ -1,0 +1,26 @@
+body {
+    background-color: black;
+    color: white;
+    font-family: "Orbitron", sans-serif;
+    text-align: center;
+}
+
+.board {
+    background-color: #30452b;
+    display: grid;
+    grid-template-columns: repeat(8, auto);
+    grid-template-rows: repeat(8, auto);
+    width: 600px;
+    height: 500px;
+    padding: 15px;
+    border-radius: 3px;
+    margin: auto;
+}
+
+.green-cell{
+    background-color: #639c56;
+}
+
+.white-cell{
+    background-color: #dbdbdb;
+}

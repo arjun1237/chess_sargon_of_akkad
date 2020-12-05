@@ -24,3 +24,29 @@ body {
 .white-cell{
     background-color: #dbdbdb;
 }
+
+.red-team{
+    color: #ac2525
+}
+
+.black-team{
+    color: #2a2a2a
+}
+
+.cell{
+    position: relative;
+}
+
+.piece{
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 35px;
+    cursor: pointer;
+}
+
+
+
+/* red = #ac2525; */
+/* black = #2a2a2a; */

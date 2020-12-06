@@ -293,19 +293,19 @@ class Pawn extends Pieces{
         let moves = []
         let pieces = document.querySelectorAll('.piece')
 
-        // 2 moves forward if it is first move
-        this.firstMove && getMoves(red ? this.row + 2 : this.row - 2, this.column, moves, pieces, this.team)
-
         if((this.row + 1 <= 8 && red) || (this.row - 1 >= 0 && !red)){
             // 1 move forward
-            getMoves(red ? this.row + 1 : this.row - 1, this.column, moves, pieces, this.team)
+            var moveForward = getMoves(red ? this.row + 1 : this.row - 1, this.column, moves, pieces, this.team, true, true)
             
             // diagonal right
-            this.column + 1 <= 8 && getMoves(red ? this.row + 1 : this.row - 1, this.column + 1, moves, pieces, this.team)
+            this.column + 1 <= 8 && getMoves(red ? this.row + 1 : this.row - 1, this.column + 1, moves, pieces, this.team, true, false)
 
             // diagonal left
-            this.column - 1 >= 1 && getMoves(red ? this.row + 1 : this.row - 1, this.column - 1, moves, pieces, this.team)
+            this.column - 1 >= 1 && getMoves(red ? this.row + 1 : this.row - 1, this.column - 1, moves, pieces, this.team, true, false)
         }
+
+        // 2 moves forward if it is first move
+        moveForward && this.firstMove && getMoves(red ? this.row + 2 : this.row - 2, this.column, moves, pieces, this.team, true, true)
 
         return moves
     }
@@ -333,7 +333,7 @@ class Pawn extends Pieces{
 
 // helper functions
 
-function getMoves(i, j, moves, pieces, team){
+function getMoves(i, j, moves, pieces, team, isPawn = false, movePawnForward = false){
     let pos = i + "" + j
     let cell = document.querySelector(`[data-pos='${pos}']`)
     let piece = [...pieces].filter(p => p.getAttribute('data-posPiece') === pos)
@@ -343,10 +343,12 @@ function getMoves(i, j, moves, pieces, team){
     }
     let occupied = cell.getAttribute('data-occupied')
     if(occupied === "false" && !isPiece){
+        if(isPawn && !movePawnForward) return
         moves.push(pos)
     }
     if(occupied === "true"){
-        if(!isTeam) moves.push(pos)
+        if(isPawn && movePawnForward) return
+        !isTeam && moves.push(pos)
         return false
     }
     return true

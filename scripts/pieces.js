@@ -10,9 +10,10 @@ class Pieces{
 
     movePiece(row, col){
         let piece = document.querySelector(`[data-posPiece='${this.row}${this.column}']`)
-        document.querySelector(`[data-posPiece='${this.row}${this.column}']`).setAttribute('data-occupied', false)
-        this.row = row
-        this.column = col
+        document.querySelector(`[data-pos='${this.row}${this.column}']`).setAttribute('data-occupied', false)
+        this.row = Number(row)
+        this.column = Number(col)
+
         piece.setAttribute('data-posPiece', `${row}${col}`)
         let cell = document.querySelector(`[data-pos='${row}${col}']`)
         cell.append(piece)
@@ -320,6 +321,11 @@ class Pawn extends Pieces{
             currentPiece = that
         })  
         elem.append(item)
+    }
+
+    movePiece(row, col){
+        super.movePiece(row, col)
+        this.firstMove = false
     }
 }
 

@@ -1,3 +1,4 @@
+let currentPiece = null
 
 class Pieces{
     constructor(row, column, team){
@@ -5,6 +6,18 @@ class Pieces{
         this.column = column
         this.team = team
         this.killed = false
+    }
+
+    movePiece(row, col){
+        let piece = document.querySelector(`[data-posPiece='${this.row}${this.column}']`)
+        document.querySelector(`[data-posPiece='${this.row}${this.column}']`).setAttribute('data-occupied', false)
+        this.row = row
+        this.column = col
+        piece.setAttribute('data-posPiece', `${row}${col}`)
+        let cell = document.querySelector(`[data-pos='${row}${col}']`)
+        cell.append(piece)
+        cell.setAttribute('data-occupied', true)
+        removeHighlights()
     }
 }
 
@@ -70,7 +83,7 @@ class Knight extends Pieces{
         item.setAttribute('data-posPiece', `${this.row}${this.column}`)
         item.addEventListener("click", function(){
             highlightMoves(that.moves())
-
+            currentPiece = that
         })
         elem.append(item)
     }
@@ -113,7 +126,7 @@ class Rook extends Pieces{
         item.setAttribute('data-posPiece', `${this.row}${this.column}`)
         item.addEventListener("click", function(){
             highlightMoves(that.moves())
-
+            currentPiece = that
         })
         elem.append(item)
     }
@@ -155,7 +168,8 @@ class Bishop extends Pieces{
         item.setAttribute('data-posPiece', `${this.row}${this.column}`)
         item.addEventListener("click", function(){
             highlightMoves(that.moves())
-        })
+            currentPiece = that
+        })  
         elem.append(item)
     }
 }
@@ -213,7 +227,8 @@ class Queen extends Pieces{
         item.setAttribute('data-posPiece', `${this.row}${this.column}`)
         item.addEventListener("click", function(){
             highlightMoves(that.moves())
-        })
+            currentPiece = that
+        })  
         elem.append(item)
     }
 }
@@ -260,7 +275,8 @@ class King extends Pieces{
         item.setAttribute('data-posPiece', `${this.row}${this.column}`)
         item.addEventListener("click", function(){
             highlightMoves(that.moves())
-        })
+            currentPiece = that
+        })  
         elem.append(item)
     }
 }
@@ -301,7 +317,8 @@ class Pawn extends Pieces{
         item.setAttribute('data-posPiece', `${this.row}${this.column}`)
         item.addEventListener("click", function(){
             highlightMoves(that.moves())
-        })
+            currentPiece = that
+        })  
         elem.append(item)
     }
 }
@@ -311,7 +328,6 @@ class Pawn extends Pieces{
 // helper functions
 
 function getMoves(i, j, moves, pieces, team){
-    // console.log(pieces)
     let pos = i + "" + j
     let cell = document.querySelector(`[data-pos='${pos}']`)
     let piece = [...pieces].filter(p => p.getAttribute('data-posPiece') === pos)
@@ -331,17 +347,18 @@ function getMoves(i, j, moves, pieces, team){
 }
 
 function highlightMoves(moves){
-    var highlights = document.getElementsByClassName('highlight');
-    for(let el of [...highlights]){
-        el.classList.remove('highlight')
-    }
-        
-
+    removeHighlights()
     for(let move of moves){
         let cell = document.querySelector(`[data-pos='${move}']`)
-
         cell.classList.add('highlight')
     }
 }
 
-export {Pawn, Rook, Queen, King, Knight, Bishop}
+function removeHighlights(){
+    var highlights = document.getElementsByClassName('highlight');
+    for(let el of [...highlights]){
+        el.classList.remove('highlight')
+    }
+}
+
+export {Pawn, Rook, Queen, King, Knight, Bishop, currentPiece}

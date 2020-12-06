@@ -1,15 +1,24 @@
-import {Pawn, Rook, Queen, King, Knight, Bishop} from './pieces.js'
+import {Pawn, Rook, Queen, King, Knight, Bishop, currentPiece} from './pieces.js'
 
 
 window.addEventListener('load', createGame)
 
+let board = document.querySelector('.board')
+
 function createGame(){
     createBoard()
+    board.addEventListener('click', movePiece)
     startGame()
 }
 
-function createBoard(){
-    let board = document.querySelector('.board')
+function movePiece(e){
+    if(e.target.classList.contains('highlight')){
+        e.stopPropagation()
+        currentPiece.movePiece(...e.target.getAttribute('data-pos').split(''))
+    }
+}
+
+function createBoard(){    
     let cells = []
     for(let i=0, k=8; i<8; i++, k--){
         for(let j=0; j<8; j++){

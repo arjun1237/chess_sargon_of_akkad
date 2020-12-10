@@ -83,8 +83,15 @@ class Knight extends Pieces{
         item.classList.add("fas", "fa-chess-knight", this.team + "-team", "piece")
         item.setAttribute('data-posPiece', `${this.row}${this.column}`)
         item.addEventListener("click", function(){
-            highlightMoves(that.moves())
-            currentPiece = that
+            if(!item.parentElement.classList.contains('highlight')){
+                highlightMoves(that.moves())
+                currentPiece = that
+            }
+            else{
+                item.remove()
+                currentPiece.movePiece(that.row, that.column)
+                that = null
+            }
         })
         elem.append(item)
     }
@@ -126,8 +133,15 @@ class Rook extends Pieces{
         item.classList.add("fas", "fa-chess-rook", this.team + "-team", "piece")
         item.setAttribute('data-posPiece', `${this.row}${this.column}`)
         item.addEventListener("click", function(){
-            highlightMoves(that.moves())
-            currentPiece = that
+            if(!item.parentElement.classList.contains('highlight')){
+                highlightMoves(that.moves())
+                currentPiece = that
+            }
+            else{
+                item.remove()
+                currentPiece.movePiece(that.row, that.column)
+                that = null
+            }
         })
         elem.append(item)
     }
@@ -168,8 +182,15 @@ class Bishop extends Pieces{
         item.classList.add("fas", "fa-chess-bishop", this.team + "-team", "piece")
         item.setAttribute('data-posPiece', `${this.row}${this.column}`)
         item.addEventListener("click", function(){
-            highlightMoves(that.moves())
-            currentPiece = that
+            if(!item.parentElement.classList.contains('highlight')){
+                highlightMoves(that.moves())
+                currentPiece = that
+            }
+            else{
+                item.remove()
+                currentPiece.movePiece(that.row, that.column)
+                that = null
+            }
         })  
         elem.append(item)
     }
@@ -227,8 +248,15 @@ class Queen extends Pieces{
         item.classList.add("fas", "fa-chess-queen", this.team + "-team", "piece")
         item.setAttribute('data-posPiece', `${this.row}${this.column}`)
         item.addEventListener("click", function(){
-            highlightMoves(that.moves())
-            currentPiece = that
+            if(!item.parentElement.classList.contains('highlight')){
+                highlightMoves(that.moves())
+                currentPiece = that
+            }
+            else{
+                item.remove()
+                currentPiece.movePiece(that.row, that.column)
+                that = null
+            }
         })  
         elem.append(item)
     }
@@ -275,8 +303,15 @@ class King extends Pieces{
         item.classList.add("fas", "fa-chess-king", this.team + "-team", "piece")
         item.setAttribute('data-posPiece', `${this.row}${this.column}`)
         item.addEventListener("click", function(){
-            highlightMoves(that.moves())
-            currentPiece = that
+            if(!item.parentElement.classList.contains('highlight')){
+                highlightMoves(that.moves())
+                currentPiece = that
+            }
+            else{
+                item.remove()
+                currentPiece.movePiece(that.row, that.column)
+                that = null
+            }
         })  
         elem.append(item)
     }
@@ -317,8 +352,15 @@ class Pawn extends Pieces{
         item.classList.add("fas", "fa-chess-pawn", this.team + "-team", "piece")
         item.setAttribute('data-posPiece', `${this.row}${this.column}`)
         item.addEventListener("click", function(){
-            highlightMoves(that.moves())
-            currentPiece = that
+            if(!item.parentElement.classList.contains('highlight')){
+                highlightMoves(that.moves())
+                currentPiece = that
+            }
+            else{
+                item.remove()
+                currentPiece.movePiece(that.row, that.column)
+                that = null
+            }
         })  
         elem.append(item)
     }

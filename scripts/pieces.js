@@ -10,6 +10,9 @@ class Pieces{
     }
 
     movePiece(row, col){
+        // if(isChecked()){
+        //     displayCheck()
+        // }
         let piece = document.querySelector(`[data-posPiece='${this.row}${this.column}']`)
         document.querySelector(`[data-pos='${this.row}${this.column}']`).setAttribute('data-occupied', false)
         this.row = Number(row)
@@ -20,6 +23,10 @@ class Pieces{
         cell.append(piece)
         cell.setAttribute('data-occupied', true)
         removeHighlights()
+    }
+
+    getPosition(){
+        return this.row + "" + this.column
     }
 }
 
@@ -428,6 +435,24 @@ function killPiece(row, col){
     }
 }
 
-function 
+function getAllMoves(){
+    let team = currentPiece.team
+    let moves = []
+    allPieces.forEach(piece => {
+        if(piece.team !== team && !piece.killed){
+            moves.push(...piece.moves())
+        }
+    })
+    return moves
+}
+
+function isChecked(){
+    let team = currentPiece.team
+    let king = allPieces.find(piece => piece.team === team && piece instanceof King)
+    let kingPosition = king.getPosition()
+    return getAllMoves().indexOf(kingPosition) !== -1
+}
+
+// function 
 
 export {Pawn, Rook, Queen, King, Knight, Bishop, currentPiece, allPieces}

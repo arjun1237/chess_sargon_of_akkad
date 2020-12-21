@@ -1,4 +1,5 @@
 let currentPiece = null
+let allPieces = []
 
 class Pieces{
     constructor(row, column, team){
@@ -88,6 +89,7 @@ class Knight extends Pieces{
                 currentPiece = that
             }
             else{
+                killPiece(that.row, that.column)
                 item.remove()
                 currentPiece.movePiece(that.row, that.column)
                 that = null
@@ -138,6 +140,7 @@ class Rook extends Pieces{
                 currentPiece = that
             }
             else{
+                killPiece(that.row, that.column)
                 item.remove()
                 currentPiece.movePiece(that.row, that.column)
                 that = null
@@ -187,6 +190,7 @@ class Bishop extends Pieces{
                 currentPiece = that
             }
             else{
+                killPiece(that.row, that.column)
                 item.remove()
                 currentPiece.movePiece(that.row, that.column)
                 that = null
@@ -253,6 +257,7 @@ class Queen extends Pieces{
                 currentPiece = that
             }
             else{
+                killPiece(that.row, that.column)
                 item.remove()
                 currentPiece.movePiece(that.row, that.column)
                 that = null
@@ -308,6 +313,7 @@ class King extends Pieces{
                 currentPiece = that
             }
             else{
+                killPiece(that.row, that.column)
                 item.remove()
                 currentPiece.movePiece(that.row, that.column)
                 that = null
@@ -357,6 +363,7 @@ class Pawn extends Pieces{
                 currentPiece = that
             }
             else{
+                killPiece(that.row, that.column)
                 item.remove()
                 currentPiece.movePiece(that.row, that.column)
                 that = null
@@ -411,4 +418,16 @@ function removeHighlights(){
     }
 }
 
-export {Pawn, Rook, Queen, King, Knight, Bishop, currentPiece}
+function killPiece(row, col){
+    for(let piece of allPieces){
+        if(row === piece.row && piece.column === col){
+            piece.killed = true
+            console.log(piece)
+            return
+        }
+    }
+}
+
+function 
+
+export {Pawn, Rook, Queen, King, Knight, Bishop, currentPiece, allPieces}

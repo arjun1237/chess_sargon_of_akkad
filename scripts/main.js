@@ -1,4 +1,4 @@
-import {Pawn, Rook, Queen, King, Knight, Bishop, currentPiece} from './pieces.js'
+import {Pawn, Rook, Queen, King, Knight, Bishop, currentPiece, allPieces} from './pieces.js'
 
 
 window.addEventListener('load', createGame)
@@ -38,7 +38,6 @@ function createBoard(){
 }
 
 function startGame(){
-    let pieces = []
     addPieces("red")
     addPieces("black")
     placePieces()
@@ -47,22 +46,22 @@ function startGame(){
         let row1 = color === "red" ? 1 : 8
         let row2 = color === "red" ? 2 : 7
         for(let i = 1; i <= 8; i++){
-            pieces.push(new Pawn(row2, i, color))
+            allPieces.push(new Pawn(row2, i, color))
         }
-        pieces.push(new Knight(row1, 2, color))
-        pieces.push(new Knight(row1, 7, color))
+        allPieces.push(new Knight(row1, 2, color))
+        allPieces.push(new Knight(row1, 7, color))
 
-        pieces.push(new Rook(row1, 1, color))
-        pieces.push(new Rook(row1, 8, color))
+        allPieces.push(new Rook(row1, 1, color))
+        allPieces.push(new Rook(row1, 8, color))
 
-        pieces.push(new Bishop(row1, 3, color))
-        pieces.push(new Bishop(row1, 6, color))
+        allPieces.push(new Bishop(row1, 3, color))
+        allPieces.push(new Bishop(row1, 6, color))
 
-        pieces.push(new King(row1, color === "red" ? 5 : 4, color))
-        pieces.push(new Queen(row1, color === "red" ? 4 : 5, color))
+        allPieces.push(new King(row1, color === "red" ? 5 : 4, color))
+        allPieces.push(new Queen(row1, color === "red" ? 4 : 5, color))
     }
 
     function placePieces(){
-        pieces.forEach(piece => piece.placeItem())
+        allPieces.forEach(piece => piece.placeItem())
     }
 }

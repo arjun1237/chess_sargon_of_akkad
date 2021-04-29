@@ -1,4 +1,5 @@
 import {Pawn, Rook, Queen, King, Knight, Bishop, currentPiece, allPieces} from './pieces.js'
+import {team} from './enums.js'
 
 
 window.addEventListener('load', createGame)
@@ -38,13 +39,13 @@ function createBoard(){
 }
 
 function startGame(){
-    addPieces("red")
-    addPieces("black")
+    addPieces(team.RED)
+    addPieces(team.BLACK)
     placePieces()
 
     function addPieces(color){
-        let row1 = color === "red" ? 1 : 8
-        let row2 = color === "red" ? 2 : 7
+        let row1 = color === team.RED ? 1 : 8
+        let row2 = color === team.RED ? 2 : 7
         for(let i = 1; i <= 8; i++){
             allPieces.push(new Pawn(row2, i, color))
         }
@@ -57,8 +58,8 @@ function startGame(){
         allPieces.push(new Bishop(row1, 3, color))
         allPieces.push(new Bishop(row1, 6, color))
 
-        allPieces.push(new King(row1, color === "red" ? 5 : 4, color))
-        allPieces.push(new Queen(row1, color === "red" ? 4 : 5, color))
+        allPieces.push(new King(row1, color === team.RED ? 5 : 4, color))
+        allPieces.push(new Queen(row1, color === team.RED ? 4 : 5, color))
     }
 
     function placePieces(){

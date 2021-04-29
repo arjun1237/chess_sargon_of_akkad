@@ -1,5 +1,9 @@
+import {team as playTeam} from './enums.js'
+
 let currentPiece = null
 let allPieces = []
+let currentTeam = playTeam.RED
+let previousMove = null
 
 class Pieces{
     constructor(row, column, team){
@@ -23,6 +27,7 @@ class Pieces{
         cell.append(piece)
         cell.setAttribute('data-occupied', true)
         removeHighlights()
+        changeTurn()
     }
 
     getPosition(){
@@ -337,23 +342,23 @@ class Pawn extends Pieces{
     }
 
     moves(){
-        let red = this.team === "red"
+        let isRed = this.team === playTeam.RED
         let moves = []
         let pieces = document.querySelectorAll('.piece')
 
-        if((this.row + 1 <= 8 && red) || (this.row - 1 >= 0 && !red)){
+        if((this.row + 1 <= 8 && isRed) || (this.row - 1 >= 0 && !isRed)){
             // 1 move forward
-            var moveForward = getMoves(red ? this.row + 1 : this.row - 1, this.column, moves, pieces, this.team, true, true)
+            var moveForward = getMoves(isRed ? this.row + 1 : this.row - 1, this.column, moves, pieces, this.team, true, true)
             
             // diagonal right
-            this.column + 1 <= 8 && getMoves(red ? this.row + 1 : this.row - 1, this.column + 1, moves, pieces, this.team, true, false)
+            this.column + 1 <= 8 && getMoves(isRed ? this.row + 1 : this.row - 1, this.column + 1, moves, pieces, this.team, true, false)
 
             // diagonal left
-            this.column - 1 >= 1 && getMoves(red ? this.row + 1 : this.row - 1, this.column - 1, moves, pieces, this.team, true, false)
+            this.column - 1 >= 1 && getMoves(isRed ? this.row + 1 : this.row - 1, this.column - 1, moves, pieces, this.team, true, false)
         }
 
         // 2 moves forward if it is first move
-        moveForward && this.firstMove && getMoves(red ? this.row + 2 : this.row - 2, this.column, moves, pieces, this.team, true, true)
+        moveForward && this.firstMove && getMoves(isRed ? this.row + 2 : this.row - 2, this.column, moves, pieces, this.team, true, true)
 
         return moves
     }
@@ -390,6 +395,9 @@ class Pawn extends Pieces{
 // helper functions
 
 function getMoves(i, j, moves, pieces, team, isPawn = false, movePawnForward = false){
+    if(team !== currentTeam){
+        return false
+    }
     let pos = i + "" + j
     let cell = document.querySelector(`[data-pos='${pos}']`)
     let piece = [...pieces].filter(p => p.getAttribute('data-posPiece') === pos)
@@ -435,8 +443,8 @@ function killPiece(row, col){
     }
 }
 
-function getAllMoves(){
-    let team = currentPiece.team
+// get all the moves of all players of the team except the king's
+function getAllMoves(team){
     let moves = []
     allPieces.forEach(piece => {
         if(piece.team !== team && !piece.killed){
@@ -446,11 +454,27 @@ function getAllMoves(){
     return moves
 }
 
-function isChecked(){
+// check if the king of current team is checked
+function isTeamChecked(){
+    let team = currentPiece.team === playTeam.RED ? playTeam.BLACK : playTeam.RED
+    let king = allPieces.find(piece => piece.team === team && piece instanceof King)
+    let kingPosition = king.getPosition()
+    return getAllMoves(currentPiece.team).indexOf(kingPosition) !== -1
+}
+
+
+// check if the king of opposition team is checked
+function isOppChecked(){
     let team = currentPiece.team
     let king = allPieces.find(piece => piece.team === team && piece instanceof King)
     let kingPosition = king.getPosition()
-    return getAllMoves().indexOf(kingPosition) !== -1
+    return getAllMoves(team === playTeam.RED ? playTeam.BLACK : playTeam.RED).indexOf(kingPosition) !== -1
+}
+
+
+// change the turn. Decides who needs to play
+function changeTurn(){
+    currentTeam = currentTeam === playTeam.RED ? playTeam.BLACK : playTeam.RED
 }
 
 // function 
